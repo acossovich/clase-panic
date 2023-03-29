@@ -21,9 +21,9 @@ func abrirArchivo(nombre string) (*os.File, error){
 			fmt.Println(dato)
 		}		
 	}()
-	
-	
+		
 	f1, err := os.Open(nombre)
+
 	if err != nil{
 		panic("El archivo indicado no fue encontrado o esta dañado")
 	}
@@ -69,6 +69,8 @@ func main(){
 	datosArchivo,_ := leerArchivo(fileCustomers)
 
 	fmt.Println(datosArchivo)
+
+	fileCustomers.Close()
 
 	fmt.Println("Ejecucion finalizada")
 }
