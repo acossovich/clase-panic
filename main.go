@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"io"
 )
 
 // Un estudio contable necesita acceder a los datos de sus empleados para poder realizar distintas liquidaciones. Para ello, cuentan con todo el detalle necesario en un archivo .txt. 
@@ -38,9 +39,21 @@ func abrirArchivo(nombre string) (*os.File, error){
 
 func leerArchivo(archivo *os.File) (string, error){
 
-	//archivo.Read()
+	defer func(){
+		err := recover()
 
-	return "",nil
+		if err != nil{
+			fmt.Println(err)
+		}
+	}()
+
+	texto,err := io.ReadAll(archivo)
+
+	if err != nil{
+		panic("El archivo no se pudo leer:" + err.Error())
+	}
+
+	return string(texto),nil
 
 }
 
@@ -53,7 +66,9 @@ func main(){
 		fmt.Println(ok)
 	}
 
-	leerArchivo(fileCustomers)
+	datosArchivo,_ := leerArchivo(fileCustomers)
+
+	fmt.Println(datosArchivo)
 
 	fmt.Println("Ejecucion finalizada")
 }
